@@ -1,0 +1,722 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta viewport ajustado para modo APP (sin zoom, cubre toda la pantalla) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>El universo de Panchi Tapia 🐱🐾</title>
+    
+    <!-- PWA Links (Generados dinámicamente vía JS) -->
+    <link rel="manifest" id="manifestLink">
+    <link rel="icon" type="image/svg+xml" id="faviconLink">
+    
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Panchi App">
+    
+    <!-- Android Meta Tags -->
+    <meta name="theme-color" content="#FFB5C2">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cream: #FFF8E7;
+            --pink: #FFB5C2;
+            --mint: #B5EAD7;
+            --lavender: #C7CEEA;
+            --peach: #FFDAB9;
+            --coffee: #8B6F47;
+            --dark: #4A4A4A;
+            --white: #FFFFFF;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --green: #A8E6CF;
+            --red: #FF8B94;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--peach) 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            /* Evita el efecto de "rebote" al hacer scroll en móviles */
+            overscroll-behavior-y: none;
+        }
+
+        /* Floating Cats Decoration */
+        .floating-cats {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+
+        .cat {
+            position: absolute; font-size: 3rem; opacity: 0.5;
+            animation: floatCat linear infinite;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Original 4 Cats */
+        .cat-orange { top: 5%; animation-duration: 25s; }
+        .cat-black { top: 35%; filter: grayscale(100%) brightness(0.2); animation-duration: 22s; animation-direction: reverse; }
+        .cat-gray { top: 70%; filter: grayscale(100%); animation-duration: 28s; }
+        .cat-snowshoe { top: 85%; filter: sepia(40%) hue-rotate(340deg) saturate(150%); animation-duration: 20s; animation-direction: reverse; }
+
+        /* New Cats */
+        .cat-flip { top: 20%; animation-duration: 30s; }
+        .cat-flip .prop { position: absolute; left: -15px; bottom: 0; font-size: 1.5rem; transform: rotate(-30deg); z-index: 2; }
+
+        .cat-wheelchair { top: 50%; animation-duration: 35s; animation-direction: reverse; }
+        .cat-wheelchair .prop-wc { font-size: 3.5rem; }
+        .cat-wheelchair .cat-body { position: absolute; left: 10px; top: -15px; font-size: 2.5rem; z-index: 2; }
+
+        .cat-reading { top: 10%; animation-duration: 32s; animation-direction: reverse; }
+        .cat-reading .prop-book { position: absolute; left: -25px; bottom: -5px; font-size: 2rem; transform: rotate(15deg); z-index: 2; }
+
+        @keyframes floatCat {
+            0% { transform: translateX(-15vw) rotate(0deg) translateY(0); }
+            25% { transform: translateX(25vw) rotate(10deg) translateY(-20px); }
+            50% { transform: translateX(50vw) rotate(-10deg) translateY(20px); }
+            75% { transform: translateX(75vw) rotate(10deg) translateY(-15px); }
+            100% { transform: translateX(115vw) rotate(0deg) translateY(0); }
+        }
+
+        /* Floating Phrases */
+        .floating-phrases {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+
+        .phrase {
+            position: absolute; font-family: 'Pacifico', cursive; 
+            white-space: nowrap; opacity: 0.15; 
+            animation: floatPhrase linear infinite;
+        }
+
+        .phrase-1 { top: 12%; font-size: 2.5rem; color: #8B6F47; animation-duration: 45s; }
+        .phrase-2 { top: 40%; font-size: 3rem; color: #FF6B6B; animation-duration: 38s; animation-direction: reverse; }
+        .phrase-3 { top: 60%; font-size: 2.8rem; color: #4A90E2; animation-duration: 50s; }
+        .phrase-4 { top: 80%; font-size: 2rem; color: #4A4A4A; animation-duration: 42s; animation-direction: reverse; }
+
+        @keyframes floatPhrase {
+            0% { transform: translateX(-30vw) rotate(-3deg); }
+            50% { transform: translateX(50vw) rotate(3deg); }
+            100% { transform: translateX(120vw) rotate(-3deg); }
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px; margin: 0 auto; padding: 2rem;
+            position: relative; z-index: 1;
+        }
+
+        /* Header */
+        header { text-align: center; margin-bottom: 2rem; animation: slideDown 0.8s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1 {
+            font-family: 'Pacifico', cursive; font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--pink), var(--lavender), var(--mint));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem; text-shadow: 2px 2px 20px rgba(255, 181, 194, 0.3);
+            line-height: 1.2;
+            user-select: none; /* No seleccionable */
+        }
+
+        .subtitle { font-size: 1.2rem; color: var(--coffee); font-weight: 500; margin-bottom: 1rem; user-select: none; }
+
+        /* Notification Banner */
+        .notif-banner {
+            background: var(--white); border: 2px dashed var(--pink);
+            padding: 1rem; border-radius: 15px; margin: 0 auto 2rem auto;
+            display: inline-flex; align-items: center; gap: 1rem; box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 0.8rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab {
+            padding: 0.8rem 1.5rem; background: var(--white); border: 3px solid var(--pink);
+            border-radius: 20px; cursor: pointer; font-weight: 700; font-size: 1rem;
+            transition: all 0.3s ease; box-shadow: 4px 4px 0px var(--pink);
+            user-select: none; /* Sentimiento de app nativa */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .tab:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--pink); }
+        .tab.active { background: var(--pink); color: var(--white); transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--pink); }
+
+        /* Sections & Cards */
+        .section { display: none; animation: fadeIn 0.4s ease-in; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card {
+            background: var(--white); border-radius: 25px; padding: 2rem;
+            box-shadow: 0 10px 30px var(--shadow); margin-bottom: 2rem;
+            border: 3px solid var(--mint); position: relative; overflow: hidden;
+        }
+        .card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; user-select: none; }
+        .card-title { font-size: 1.8rem; font-weight: 700; color: var(--coffee); }
+        .card-icon { font-size: 2rem; }
+
+        /* Form Inputs */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .input-field, .note-input, select {
+            width: 100%; padding: 1rem; border: 2px solid var(--lavender);
+            border-radius: 15px; font-family: 'DM Sans', sans-serif; font-size: 1rem; background: var(--cream);
+        }
+        .input-field:focus, .note-input:focus, select:focus {
+            outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255, 181, 194, 0.2);
+        }
+        .note-input { resize: vertical; min-height: 100px; margin-bottom: 1rem; }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 2rem; border: none; border-radius: 20px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: all 0.3s ease; font-family: 'DM Sans', sans-serif;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1); display: inline-flex; align-items: center; gap: 0.5rem;
+            user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+        .btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.1); }
+        .btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1); }
+        .btn-primary { background: linear-gradient(135deg, var(--pink), var(--lavender)); color: var(--white); }
+        .btn-success { background: var(--mint); color: var(--dark); }
+        .btn-danger { background: var(--red); color: var(--white); }
+        .btn-small { padding: 0.5rem 1rem; font-size: 0.9rem; border-radius: 10px; }
+        
+        .delete-btn {
+            position: absolute; top: 1rem; right: 1rem; background: rgba(255, 255, 255, 0.5);
+            border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem;
+            cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .delete-btn:hover { background: #FF6B6B; color: white; transform: rotate(90deg); }
+
+        /* Lists and Grids */
+        .list-grid { display: grid; gap: 1rem; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+        
+        .item-box {
+            background: var(--cream); padding: 1.5rem; border-radius: 15px; position: relative;
+            border-left: 5px solid var(--pink); transition: transform 0.2s;
+        }
+        .item-box:hover { transform: translateX(5px); }
+        .item-box.gradient { background: linear-gradient(135deg, var(--lavender), var(--mint)); color: var(--dark); border-left: none; }
+        .item-box.gradient-pink { background: linear-gradient(135deg, var(--pink), var(--peach)); color: var(--dark); border-left: none; }
+
+        .item-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .item-detail { font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.2rem; }
+
+        /* Wallet Specifics */
+        .wallet-dashboard {
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+            background: var(--white); padding: 2rem; border-radius: 20px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05); margin-bottom: 2rem; border: 2px dashed var(--coffee);
+        }
+        .wallet-stat { text-align: center; flex: 1; min-width: 150px; }
+        .wallet-stat h3 { font-size: 1rem; color: var(--coffee); text-transform: uppercase; }
+        .wallet-stat p { font-size: 2rem; font-weight: 700; }
+        .text-green { color: #2E8B57; }
+        .text-red { color: #CD5C5C; }
+        .text-blue { color: #4A90E2; }
+        
+        .tx-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--lavender); }
+        .tx-item:last-child { border-bottom: none; }
+        .tx-info h4 { margin: 0; color: var(--dark); }
+        .tx-info small { color: var(--coffee); }
+        .tx-amount { font-weight: 700; font-size: 1.1rem; }
+
+        /* Spotify Player */
+        .spotify-container { width: 100%; border-radius: 20px; overflow: hidden; margin-top: 1rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .container { padding: 1rem; }
+            .tab { padding: 0.6rem 1rem; font-size: 0.9rem; }
+            .card { padding: 1.5rem; }
+            .phrase { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Frases Flotantes -->
+    <div class="floating-phrases">
+        <div class="phrase phrase-1">MUELJUM</div>
+        <div class="phrase phrase-2">WELJUM</div>
+        <div class="phrase phrase-3">LEÓN TE AMA</div>
+        <div class="phrase phrase-4">Papi trabaja para y por ustedes</div>
+    </div>
+
+    <!-- Floating Cats Decoration -->
+    <div class="floating-cats">
+        <!-- Los 4 Gatos Originales -->
+        <div class="cat cat-orange">🐈</div>
+        <div class="cat cat-gray">🐈</div>
+        <div class="cat cat-snowshoe">🐈</div>
+        <div class="cat cat-black">🐈</div>
+        
+        <!-- Los 3 Nuevos Gatos -->
+        <div class="cat cat-flip">🐈<span class="prop">📱</span></div>
+        <div class="cat cat-wheelchair">
+            <span class="prop-wc">🦽</span>
+            <span class="cat-body">🐈</span>
+        </div>
+        <div class="cat cat-reading">🐈<span class="prop-book">📖</span></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>✨ Universo de Panchi 🐾</h1>
+            <p class="subtitle">Magia, gatos, café y organización ☕</p>
+            
+            <div class="notif-banner" id="notifBanner">
+                <span>🔔 ¿Activar alertas de pastillas y citas?</span>
+                <button class="btn btn-small btn-success" onclick="requestNotifications()">Activar</button>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" onclick="switchTab('notes')">📝 Notas</button>
+            <button class="tab" onclick="switchTab('pills')">💊 Medicinas</button>
+            <button class="tab" onclick="switchTab('medical')">🩺 Citas Médicas</button>
+            <button class="tab" onclick="switchTab('wallet')">👛 Billetera</button>
+            <button class="tab" onclick="switchTab('calendar')">📅 Eventos</button>
+            <button class="tab" onclick="switchTab('spotify')">🎵 Música</button>
+        </nav>
+
+        <!-- Notas -->
+        <div id="notes" class="section active">
+            <div class="card">
+                <div class="card-header"><span class="card-icon">📝</span><h2 class="card-title">Mis Notas</h2></div>
+                <textarea id="noteInput" class="note-input" placeholder="Escribe tus pensamientos aquí... ✨"></textarea>
+                <button class="btn btn-primary" onclick="addNote()">💫 Guardar Nota</button>
+                <div id="notesList" class="cards-grid"></div>
+            </div>
+        </div>
+
+        <!-- Medicinas / Pastillero -->
+        <div id="pills" class="section">
+            <div class="card">
+                <div class="card-header"><span class="card-icon">💊</span><h2 class="card-title">Mi Pastillero</h2></div>
+                <div class="form-grid">
+                    <input type="text" id="pillName" class="input-field" placeholder="Nombre del medicamento">
+                    <input type="text" id="pillDose" class="input-field" placeholder="Dosis (ej: 1 pastilla)">
+                    <select id="pillFrequency" class="input-field">
+                        <option value="">Frecuencia...</option>
+                        <option value="4">Cada 4 horas</option>
+                        <option value="6">Cada 6 horas</option>
+                        <option value="8">Cada 8 horas</option>
+                        <option value="12">Cada 12 horas</option>
+                        <option value="24">Una vez al día</option>
+                    </select>
+                    <div>
+                        <small style="color:var(--coffee);">Hora 1ra toma hoy:</small>
+                        <input type="time" id="pillStartTime" class="input-field">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addPill()">💊 Añadir Medicamento</button>
+                <div id="pillsList" class="cards-grid"></div>
+            </div>
+        </div>
+
+        <!-- Citas Médicas -->
+        <div id="medical" class="section">
+            <div class="card">
+                <div class="card-header"><span class="card-icon">🩺</span><h2 class="card-title">Citas Médicas</h2></div>
+                <div class="form-grid">
+                    <input type="text" id="medDoc" class="input-field" placeholder="Especialidad o Dr. (ej: Oftalmólogo)">
+                    <input type="date" id="medDate" class="input-field">
+                    <input type="time" id="medTime" class="input-field">
+                    <input type="text" id="medLocation" class="input-field" placeholder="Lugar o Centro Médico">
+                </div>
+                <button class="btn btn-primary" onclick="addMedical()">📅 Agendar Cita</button>
+                <div id="medicalList" class="cards-grid"></div>
+            </div>
+        </div>
+
+        <!-- Billetera -->
+        <div id="wallet" class="section">
+            <div class="card">
+                <div class="card-header"><span class="card-icon">👛</span><h2 class="card-title">Mi Billetera</h2></div>
+                
+                <div class="wallet-dashboard">
+                    <div class="wallet-stat"><h3>Ingresos</h3><p class="text-green" id="wallIn">$0</p></div>
+                    <div class="wallet-stat"><h3>Gastos</h3><p class="text-red" id="wallOut">$0</p></div>
+                    <div class="wallet-stat"><h3>Balance</h3><p class="text-blue" id="wallTotal">$0</p></div>
+                </div>
+
+                <div class="form-grid">
+                    <input type="text" id="txConcept" class="input-field" placeholder="Concepto (ej: Comida Gatos)">
+                    <input type="number" id="txAmount" class="input-field" placeholder="Monto (ej: 15000)">
+                    <select id="txType" class="input-field">
+                        <option value="gasto">🔻 Gasto</option>
+                        <option value="ingreso">🔺 Ingreso</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="addTx()">💵 Registrar Movimiento</button>
+                
+                <div id="txList" class="list-grid" style="margin-top: 2rem; background: var(--cream); border-radius: 15px; padding: 1rem;"></div>
+            </div>
+        </div>
+
+        <!-- Eventos y Cumpleaños -->
+        <div id="calendar" class="section">
+            <div class="card">
+                <div class="card-header"><span class="card-icon">🎉</span><h2 class="card-title">Eventos & Cumpleaños</h2></div>
+                <div class="form-grid">
+                    <input type="text" id="eventTitle" class="input-field" placeholder="¿Qué celebramos?">
+                    <input type="date" id="eventDate" class="input-field">
+                    <select id="eventType" class="input-field">
+                        <option value="event">🎪 Evento / Recordatorio</option>
+                        <option value="birthday">🎂 Cumpleaños</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="addEvent()">✨ Guardar Fecha</button>
+                <div id="eventsList" class="cards-grid"></div>
+            </div>
+        </div>
+
+        <!-- Spotify -->
+        <div id="spotify" class="section">
+            <div class="card">
+                <div class="card-header"><span class="card-icon">🎵</span><h2 class="card-title">Música para Panchi</h2></div>
+                <p class="subtitle">Pon el link de tu playlist favorita o escucha esta selección Lofi para concentrarte y relajarte.</p>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="text" id="spotifyLink" class="input-field" placeholder="Pega el link de Spotify aquí...">
+                    <button class="btn btn-success" onclick="updateSpotify()">▶️ Cargar</button>
+                </div>
+                <div class="spotify-container" id="spotifyFrameContainer">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts y Lógica Completa -->
+    <script>
+        /* ====================================================================
+           1. PWA GENERATION IN-MEMORY (Manifest + Icon + Service Worker)
+           ==================================================================== */
+        const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#FFB5C2" />
+            <!-- Orejas -->
+            <polygon points="25,35 30,10 45,25" fill="#4A4A4A" />
+            <polygon points="75,35 70,10 55,25" fill="#4A4A4A" />
+            <!-- Cara Gato -->
+            <circle cx="50" cy="55" r="30" fill="#FFF" />
+            <circle cx="40" cy="50" r="4" fill="#4A4A4A" />
+            <circle cx="60" cy="50" r="4" fill="#4A4A4A" />
+            <path d="M 45 58 Q 50 62 55 58" fill="none" stroke="#4A4A4A" stroke-width="2"/>
+            <polygon points="48,55 52,55 50,57" fill="#FFB5C2" />
+            <!-- Audífonos -->
+            <path d="M 15 55 A 35 35 0 0 1 85 55" fill="none" stroke="#8B6F47" stroke-width="6" />
+            <rect x="10" y="45" width="15" height="25" rx="8" fill="#8B6F47" />
+            <rect x="75" y="45" width="15" height="25" rx="8" fill="#8B6F47" />
+            <!-- Taza de Café -->
+            <rect x="42" y="70" width="16" height="15" rx="3" fill="#B5EAD7" />
+            <path d="M 58 73 C 65 73 65 82 58 82" fill="none" stroke="#B5EAD7" stroke-width="3" />
+            <path d="M 45 68 Q 47 63 50 68 T 55 68" fill="none" stroke="#FFF" stroke-width="2" />
+        </svg>`;
+        
+        const iconBase64 = 'data:image/svg+xml;base64,' + btoa(iconSvg);
+        document.getElementById('faviconLink').href = iconBase64;
+
+        const manifest = {
+            name: "Universo Panchi",
+            short_name: "Panchi",
+            start_url: window.location.href,
+            display: "fullscreen", /* MODO PANTALLA COMPLETA ACTIVADO */
+            background_color: "#FFF8E7",
+            theme_color: "#FFB5C2",
+            icons: [{ src: iconBase64, sizes: "any", type: "image/svg+xml" }]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        document.getElementById('manifestLink').href = URL.createObjectURL(manifestBlob);
+
+        const swCode = `
+            self.addEventListener('install', e => self.skipWaiting());
+            self.addEventListener('activate', e => self.clients.claim());
+            self.addEventListener('fetch', e => {}); 
+        `;
+        const swBlob = new Blob([swCode], {type: 'application/javascript'});
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.log('SW falló:', err));
+        }
+
+        /* ====================================================================
+           2. SISTEMA DE NOTIFICACIONES
+           ==================================================================== */
+        function checkNotificationStatus() {
+            const banner = document.getElementById('notifBanner');
+            if (Notification.permission === 'granted' || Notification.permission === 'denied') {
+                banner.style.display = 'none';
+            }
+        }
+
+        function requestNotifications() {
+            if (!("Notification" in window)) {
+                alert("Tu navegador no soporta notificaciones."); return;
+            }
+            Notification.requestPermission().then(permission => {
+                checkNotificationStatus();
+                if(permission === 'granted') sendNotification("¡Listo!", "Las alertas de Panchi están activadas 🐾");
+            });
+        }
+
+        function sendNotification(title, body) {
+            if (Notification.permission === 'granted') {
+                new Notification(title, { body: body, icon: iconBase64 });
+            }
+        }
+
+        setInterval(() => {
+            if (Notification.permission !== 'granted') return;
+            const now = new Date();
+            const timeStr = now.toTimeString().slice(0,5);
+            const dateStr = now.toISOString().split('T')[0];
+            
+            let pills = JSON.parse(localStorage.getItem('pills') || '[]');
+            let pillsUpdated = false;
+            pills.forEach(pill => {
+                if(pill.nextDose === timeStr) {
+                    sendNotification("💊 Hora de tu medicina", `Te toca tomar: ${pill.name} (${pill.dose})`);
+                    let [h, m] = pill.nextDose.split(':').map(Number);
+                    h = (h + Number(pill.frequency)) % 24;
+                    pill.nextDose = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+                    pillsUpdated = true;
+                }
+            });
+            if(pillsUpdated) {
+                localStorage.setItem('pills', JSON.stringify(pills));
+                if(document.getElementById('pills').classList.contains('active')) loadPills();
+            }
+
+            let meds = JSON.parse(localStorage.getItem('medicals') || '[]');
+            meds.forEach(med => {
+                if(med.date === dateStr && !med.notified) {
+                    let [mh, mm] = med.time.split(':').map(Number);
+                    let alertHour = mh - 1;
+                    if(alertHour < 0) alertHour = 23;
+                    if(timeStr === `${alertHour.toString().padStart(2,'0')}:${mm.toString().padStart(2,'0')}`) {
+                        sendNotification("🩺 Cita Médica Próxima", `En 1 hora: ${med.doc} en ${med.location}`);
+                        med.notified = true;
+                        localStorage.setItem('medicals', JSON.stringify(meds));
+                    }
+                }
+            });
+
+            if(timeStr === "09:00") {
+                let events = JSON.parse(localStorage.getItem('events') || '[]');
+                events.forEach(ev => {
+                    if(ev.type === 'birthday' && ev.date.substring(5) === dateStr.substring(5)) {
+                        sendNotification("🎂 ¡Cumpleaños!", `Hoy es el cumpleaños de: ${ev.title}`);
+                    } else if (ev.type === 'event' && ev.date === dateStr) {
+                        sendNotification("📅 Evento hoy", ev.title);
+                    }
+                });
+            }
+        }, 60000);
+
+        /* ====================================================================
+           3. LÓGICA DE INTERFAZ Y SECCIONES
+           ==================================================================== */
+        
+        function switchTab(tabName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        const formatD = d => new Date(d + 'T00:00:00').toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' });
+
+        // NOTAS
+        function loadNotes() {
+            const list = document.getElementById('notesList');
+            const data = JSON.parse(localStorage.getItem('notes') || '[]');
+            list.innerHTML = data.length ? data.map((n, i) => `
+                <div class="item-box">
+                    <button class="delete-btn" onclick="deleteItem('notes', ${i}, loadNotes)">✕</button>
+                    <div class="item-title">${n.content.substring(0,50)}${n.content.length > 50 ? '...' : ''}</div>
+                    <div class="item-detail">${n.content}</div>
+                    <small style="color:var(--coffee)">${n.date}</small>
+                </div>
+            `).join('') : '<p>No hay notas. ¡Escribe la primera! 🐱</p>';
+        }
+        function addNote() {
+            const v = document.getElementById('noteInput').value.trim();
+            if(!v) return;
+            const data = JSON.parse(localStorage.getItem('notes') || '[]');
+            data.unshift({ content: v, date: new Date().toLocaleString('es-ES') });
+            localStorage.setItem('notes', JSON.stringify(data));
+            document.getElementById('noteInput').value = ''; loadNotes();
+        }
+
+        // PASTILLERO
+        function loadPills() {
+            const list = document.getElementById('pillsList');
+            const data = JSON.parse(localStorage.getItem('pills') || '[]');
+            list.innerHTML = data.length ? data.map((p, i) => `
+                <div class="item-box gradient">
+                    <button class="delete-btn" onclick="deleteItem('pills', ${i}, loadPills)">✕</button>
+                    <div class="item-title">💊 ${p.name}</div>
+                    <div class="item-detail"><strong>Dosis:</strong> ${p.dose}</div>
+                    <div class="item-detail"><strong>Frecuencia:</strong> Cada ${p.frequency}h</div>
+                    <div class="item-detail" style="background:var(--white); padding:0.5rem; border-radius:10px; margin-top:0.5rem;">
+                        ⏰ <strong>Próxima dosis:</strong> ${p.nextDose}
+                    </div>
+                </div>
+            `).join('') : '<p>No hay medicinas registradas.</p>';
+        }
+        function addPill() {
+            const name = document.getElementById('pillName').value.trim();
+            const dose = document.getElementById('pillDose').value.trim();
+            const freq = document.getElementById('pillFrequency').value;
+            const start = document.getElementById('pillStartTime').value;
+            if(!name || !dose || !freq || !start) return alert("Completa todos los datos de la pastilla");
+            
+            const data = JSON.parse(localStorage.getItem('pills') || '[]');
+            data.push({ name, dose, frequency: freq, startTime: start, nextDose: start });
+            localStorage.setItem('pills', JSON.stringify(data));
+            document.querySelectorAll('#pills input, #pills select').forEach(i => i.value = ''); loadPills();
+        }
+
+        // CITAS MÉDICAS
+        function loadMedical() {
+            const list = document.getElementById('medicalList');
+            const data = JSON.parse(localStorage.getItem('medicals') || '[]');
+            data.sort((a,b) => new Date(a.date) - new Date(b.date));
+            list.innerHTML = data.length ? data.map((m, i) => `
+                <div class="item-box gradient-pink">
+                    <button class="delete-btn" onclick="deleteItem('medicals', ${i}, loadMedical)">✕</button>
+                    <div class="item-title">👨‍⚕️ ${m.doc}</div>
+                    <div class="item-detail">📅 ${formatD(m.date)} a las ${m.time}</div>
+                    <div class="item-detail">📍 ${m.location}</div>
+                </div>
+            `).join('') : '<p>No hay citas médicas próximas.</p>';
+        }
+        function addMedical() {
+            const doc = document.getElementById('medDoc').value.trim();
+            const date = document.getElementById('medDate').value;
+            const time = document.getElementById('medTime').value;
+            const loc = document.getElementById('medLocation').value.trim();
+            if(!doc || !date || !time) return;
+            
+            const data = JSON.parse(localStorage.getItem('medicals') || '[]');
+            data.push({ doc, date, time, location: loc, notified: false });
+            localStorage.setItem('medicals', JSON.stringify(data));
+            document.querySelectorAll('#medical input').forEach(i => i.value = ''); loadMedical();
+        }
+
+        // BILLETERA
+        function loadWallet() {
+            const list = document.getElementById('txList');
+            const data = JSON.parse(localStorage.getItem('wallet') || '[]');
+            
+            let inTotal = 0, outTotal = 0;
+            data.forEach(tx => {
+                if(tx.type === 'ingreso') inTotal += tx.amount;
+                else outTotal += tx.amount;
+            });
+
+            document.getElementById('wallIn').innerText = `$${inTotal.toLocaleString()}`;
+            document.getElementById('wallOut').innerText = `$${outTotal.toLocaleString()}`;
+            document.getElementById('wallTotal').innerText = `$${(inTotal - outTotal).toLocaleString()}`;
+
+            list.innerHTML = data.length ? data.map((tx, i) => `
+                <div class="tx-item">
+                    <div class="tx-info">
+                        <h4>${tx.concept}</h4>
+                        <small>${tx.date}</small>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:1rem;">
+                        <span class="tx-amount ${tx.type === 'ingreso' ? 'text-green' : 'text-red'}">
+                            ${tx.type === 'ingreso' ? '+' : '-'}$${tx.amount.toLocaleString()}
+                        </span>
+                        <button class="delete-btn" style="position:static;" onclick="deleteItem('wallet', ${i}, loadWallet)">✕</button>
+                    </div>
+                </div>
+            `).join('') : '<p style="text-align:center;">No hay movimientos registrados.</p>';
+        }
+        function addTx() {
+            const concept = document.getElementById('txConcept').value.trim();
+            const amount = parseFloat(document.getElementById('txAmount').value);
+            const type = document.getElementById('txType').value;
+            if(!concept || isNaN(amount)) return;
+
+            const data = JSON.parse(localStorage.getItem('wallet') || '[]');
+            data.unshift({ concept, amount, type, date: new Date().toLocaleDateString('es-ES') });
+            localStorage.setItem('wallet', JSON.stringify(data));
+            document.getElementById('txConcept').value = '';
+            document.getElementById('txAmount').value = '';
+            loadWallet();
+        }
+
+        // EVENTOS
+        function loadEvents() {
+            const list = document.getElementById('eventsList');
+            const data = JSON.parse(localStorage.getItem('events') || '[]');
+            data.sort((a,b) => new Date(a.date) - new Date(b.date));
+            list.innerHTML = data.length ? data.map((e, i) => `
+                <div class="item-box ${e.type === 'birthday' ? 'gradient-pink' : ''}">
+                    <button class="delete-btn" onclick="deleteItem('events', ${i}, loadEvents)">✕</button>
+                    <div class="item-title">${e.type === 'birthday' ? '🎂' : '🎪'} ${e.title}</div>
+                    <div class="item-detail">${formatD(e.date)}</div>
+                </div>
+            `).join('') : '<p>No hay eventos próximos.</p>';
+        }
+        function addEvent() {
+            const title = document.getElementById('eventTitle').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const type = document.getElementById('eventType').value;
+            if(!title || !date) return;
+
+            const data = JSON.parse(localStorage.getItem('events') || '[]');
+            data.push({ title, date, type });
+            localStorage.setItem('events', JSON.stringify(data));
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+            loadEvents();
+        }
+
+        // SPOTIFY
+        function updateSpotify() {
+            const link = document.getElementById('spotifyLink').value;
+            const container = document.getElementById('spotifyFrameContainer');
+            const match = link.match(/spotify\.com\/(track|playlist|album)\/([a-zA-Z0-9]+)/);
+            if(match) {
+                const type = match[1];
+                const id = match[2];
+                container.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${type}/${id}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+            } else {
+                alert("Por favor inserta un link válido de Spotify.");
+            }
+        }
+
+        // UTILIDAD DE BORRADO
+        function deleteItem(storageKey, index, reloadFunc) {
+            const data = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            data.splice(index, 1);
+            localStorage.setItem(storageKey, JSON.stringify(data));
+            reloadFunc();
+        }
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNotes(); loadPills(); loadMedical(); loadWallet(); loadEvents();
+            checkNotificationStatus();
+        });
+    </script>
+</body>
+</html>
+
+
+```
